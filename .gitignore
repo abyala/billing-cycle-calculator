@@ -23,6 +23,9 @@
 hs_err_pid*
 
 # Added by abyala
+.gradle/*
+.idea/*
+out/*
 build/*
 src/main/webapp/VAADIN/themes/Vaadin/addons.scss
 src/main/webapp/VAADIN/themes/Vaadin/styles.css
