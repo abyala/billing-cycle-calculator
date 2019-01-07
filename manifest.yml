@@ -1,0 +1,9 @@
+---
+applications:
+- name: Billing Cycle Calculator
+  memory: 192M
+  instances: 1
+  path: build/libs/billingCycleCalculator.jar
+  # random-route: true
+  env:
+    JAVA_OPTS: '-Xmx192m -XX:MaxMetaspaceSize=128m'

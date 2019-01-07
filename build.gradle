@@ -1,0 +1,6 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.6.RELEASE'
+    id 'com.devsoap.plugin.vaadin' version '1.2.3'
+}
+
+jar.baseName='billingCycleCalculator'

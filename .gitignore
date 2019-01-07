@@ -21,3 +21,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Added by abyala
+build/*
+src/main/webapp/VAADIN/themes/Vaadin/addons.scss
+src/main/webapp/VAADIN/themes/Vaadin/styles.css
+src/main/webapp/VAADIN/themes/Vaadin/styles.css.gz
+
