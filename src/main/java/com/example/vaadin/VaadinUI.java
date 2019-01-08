@@ -8,23 +8,21 @@ import com.vaadin.ui.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
 @SpringUI
 @Theme("Vaadin")
-public class VaadinUI extends UI implements HasValue.ValueChangeListener<String> {
+public class VaadinUI extends UI implements HasValue.ValueChangeListener<LocalDate> {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("M/d/yyyy");
-    private final TextField cycleDateField = new TextField("Cycle Start (MM/DD/YYYY)");
-    private final TextField existingStatementField = new TextField("Existing Future Statement Date*");
+    private final DateField cycleDateField = new DateField("Cycle Start (MM/DD/YYYY) *");
+    private final DateField existingStatementField = new DateField("Existing Future Statement Date **");
     private final TextField nextStatementDateField = new TextField("Next Statement Date");
     private final TextField letterDateField = new TextField("Next Letter Date");
-    private final Label existingStatementLabel = new Label("* Only use if account has been receiving recent monthly statements related to the balance.");
+    private final Label cycleDateLabel = new Label("* Oldest date of service where balance is coming from.");
+    private final Label existingStatementLabel = new Label("** If patient has been receiving statements within the Stmt Hx tab, then enter the next statement date set in the future.");
 
     @Override
     protected void init(VaadinRequest request) {
-        existingStatementField.setVisible(false);
-        existingStatementLabel.setVisible(false);
         nextStatementDateField.setReadOnly(true);
         letterDateField.setReadOnly(true);
 
@@ -44,8 +42,11 @@ public class VaadinUI extends UI implements HasValue.ValueChangeListener<String>
 
         final VerticalLayout overallLayout = new VerticalLayout();
         overallLayout.addComponent(allDataLayout);
+        overallLayout.addComponent(cycleDateLabel);
         overallLayout.addComponent(existingStatementLabel);
 
+        cycleDateField.setDateFormat("MM/dd/yyyy");
+        existingStatementField.setDateFormat("MM/dd/yyyy");
         cycleDateField.addValueChangeListener(this);
         existingStatementField.addValueChangeListener(this);
 
@@ -53,22 +54,22 @@ public class VaadinUI extends UI implements HasValue.ValueChangeListener<String>
     }
 
     @Override
-    public void valueChange(HasValue.ValueChangeEvent<String> event) {
-        final LocalDate cycleDate = parseDate(cycleDateField);
+    public void valueChange(HasValue.ValueChangeEvent<LocalDate> event) {
+        final LocalDate cycleDate = cycleDateField.getValue();
         if (cycleDate == null) {
-            setDateFields(false, null, null);
+            setDateFields(null, null);
             return;
         }
 
         final int daysAgo = daysSince(cycleDate);
         if (daysAgo < 47) {
-            setDateFields(false, cycleDate.plusDays(47), cycleDate.plusDays(92));
+            setDateFields(cycleDate.plusDays(47), cycleDate.plusDays(92));
         } else {
-            final LocalDate existingStatementDate = parseDate(existingStatementField);
+            final LocalDate existingStatementDate = existingStatementField.getValue();
             if (existingStatementDate == null) {
-                setDateFields(true, LocalDate.now().plusDays(1), LocalDate.now().plusDays(46));
+                setDateFields(LocalDate.now().plusDays(1), LocalDate.now().plusDays(46));
             } else {
-                setDateFields(true, existingStatementDate, existingStatementDate.plusDays(15));
+                setDateFields(existingStatementDate, existingStatementDate.plusDays(15));
             }
         }
     }
@@ -77,21 +78,7 @@ public class VaadinUI extends UI implements HasValue.ValueChangeListener<String>
         return (int) ChronoUnit.DAYS.between(cycleDate, LocalDate.now());
     }
 
-    private LocalDate parseDate(TextField field) {
-        try {
-            return LocalDate.parse(field.getValue(), DATE_FORMAT);
-        } catch (DateTimeParseException e) {
-            return null;
-        }
-    }
-
-    private void setDateFields(boolean enableExistingStatement, LocalDate nextStatementDate, LocalDate letterDate) {
-        existingStatementField.setVisible(enableExistingStatement);
-        existingStatementLabel.setVisible(enableExistingStatement);
-        if (!enableExistingStatement) {
-            existingStatementField.setValue("");
-        }
-
+    private void setDateFields(LocalDate nextStatementDate, LocalDate letterDate) {
         nextStatementDateField.setValue(nextStatementDate == null ? "" : nextStatementDate.format(DATE_FORMAT));
         letterDateField.setValue(letterDate == null ? "" : letterDate.format(DATE_FORMAT));
     }
