@@ -7,3 +7,10 @@ applications:
   # random-route: true
   env:
     JAVA_OPTS: '-Xmx192m -XX:MaxMetaspaceSize=128m'
+
+  # I don't know why I need to do this, but it won't deploy anymore without it. 2019-09-30.
+  # [ERR] [Buildpack] ERROR Detect failed with exception #<RuntimeError: Jvmkill Agent error: Unable to find cached file for https://java-buildpack.cloudfoundry.org/jvmkill/trusty/x86_64/index.yml>
+  # 2019-09-30T18:12:41.317-05:00 [STG/0] [ERR] Jvmkill Agent error: Unable to find cached file for https://java-buildpack.cloudfoundry.org/jvmkill/trusty/x86_64/index.yml
+  # 2019-09-30T18:12:41.862-05:00 [STG/0] [ERR] None of the buildpacks detected a compatible application
+  buildpacks:
+  - https://github.com/cloudfoundry/java-buildpack.git
