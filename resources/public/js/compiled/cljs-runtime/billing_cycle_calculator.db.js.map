@@ -1,0 +1,1 @@
+{"version":3,"sources":["billing_cycle_calculator/db.cljs"],"mappings":";AAEA,AAAA,AAAA,AAAA,AAAKA","names":["billing-cycle-calculator.db/default-db"],"sourcesContent":["(ns billing-cycle-calculator.db)\r\n\r\n(def default-db\r\n  {:name \"Billing Cycle Calculator\"})\r\n"]}
