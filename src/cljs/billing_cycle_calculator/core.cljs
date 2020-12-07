@@ -4,8 +4,7 @@
    [re-frame.core :as re-frame]
    [billing-cycle-calculator.events :as events]
    [billing-cycle-calculator.views :as views]
-   [billing-cycle-calculator.config :as config]
-   ))
+   [billing-cycle-calculator.config :as config]))
 
 
 (defn dev-setup []

@@ -1,6 +1,5 @@
 (ns billing-cycle-calculator.events
   (:require
-    [clojure.string :as str]
     [re-frame.core :as rf]
     [billing-cycle-calculator.db :as db]
     [billing-cycle-calculator.business-logic :as biz]))
