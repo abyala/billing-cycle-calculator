@@ -20,34 +20,37 @@
 (defn main-panel []
   (let [next-statement (rf/subscribe [::subs/next-statement])
         next-letter (rf/subscribe [::subs/next-letter])]
-    [:div
-     [:table {:padding "100"}
+    [:div {:align "center"}
+     [:div.header [:u "Billing Cycle Calculator"]]
+     [:table
       [:tbody
-       [:tr
-        [:th "Input Fields"]
-        [:th "Output Fields"]]
-       [:tr {:height 20}
-        [:td {:width "250"}
+       [:tr.label
+        [:td.form
          [:div
           {:title "Oldest date of service where balance is coming from"}
-          "Cycle Start:"]]
-        [:td {:width "250"}
+          [:sup "*"] "Cycle Start:"]]
+        [:td.form
          [:div "Next Statement Date:"]]]
        [:tr
-        [:td
-         [date-picker ::events/cycle-start-updated]]
-        [:td
-         [formatted-date-text next-statement]]]
-       [:tr {:height 30}]
-       [:tr {:height 30}
+        [:td [date-picker ::events/cycle-start-updated]]
+        [:td [formatted-date-text next-statement]]]
+       [:tr.label]
+       [:tr.label
         [:td
          [:div
           {:title "If patient has been receiving statements within the Stmt Hx tab, then enter the next statement date set in the future."}
-          "Existing Future Statement Date:"]]
-        [:td
-         [:div "Next Letter Date:"]]]
+          [:sup "**"] "Existing Future Statement Date:"]]
+        [:td [:div "Next Letter Date:"]]]
        [:tr
-        [:td
-         [date-picker ::events/existing-future-statement-date-updated]]
-        [:td
-         [formatted-date-text next-letter]]]]]]))
+        [:td [date-picker ::events/existing-future-statement-date-updated]]
+        [:td [formatted-date-text next-letter]]]
+       [:tr.label]
+       [:tr.label
+        [:td.form {:colspan 2}
+         [:div "* Oldest date of service where balance is coming from."]
+         [:p]
+         [:div "** If patient has been receiving statements within the Stmt Hx tab, then enter the next statement date set in the future."]
+         ]]]]
+     [:div.footer
+      [:p "Disclaimer: The author of this site makes no guarantees as to the availability of the site,
+      nor of the accuracy of the data. Use at your own discretion."]]]))

@@ -1,0 +1,33 @@
+body {
+    font-family: Verdana, Calibri, Arial;
+    font-size: 14px;
+}
+
+h2 {
+    padding-bottom: 25px;
+}
+
+div.header {
+    font-size: 24px;
+    font-weight: bold;
+    padding-bottom: 35px;
+}
+
+tr.label {
+    height: 30px;
+    font-size: 12px;
+}
+
+td {
+    padding: 20px;
+}
+td.form {
+    width: 250px;
+}
+
+div.footer {
+    position: fixed;
+    bottom: 5%;
+    text-align: left;
+    font-size: 10px;
+}
