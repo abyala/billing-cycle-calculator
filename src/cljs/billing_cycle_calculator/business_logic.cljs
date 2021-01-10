@@ -1,10 +1,10 @@
 (ns billing-cycle-calculator.business-logic
-  (:require [cljs-time.core :refer [in-days interval today plus days before?]]))
+  (:require [cljs-time.core :refer [in-days interval today plus days before? after?]]))
 
 (defn days-between [start end]
-  (if (before? start end)
-    (in-days (interval start end))
-    (- (days-between end start))))
+  (if (after? start end)
+    (- (days-between end start))
+    (in-days (interval start end))))
 
 (defn output-fields [cycle-start existing-future-stmt]
   (letfn [(output [stmt letter] {:next-stmt stmt :next-letter letter})]
